@@ -1,7 +1,7 @@
 <?php
     session_start();
     try {
-        $conn = mysqli_connect("localhost", "bengak", "bengak", "uts-awan");
+        $conn = mysqli_connect("db", "root", "root", "uas_awan");
     } catch (Exception $th) {
         echo $th;
     }

@@ -18,7 +18,8 @@ jobs:
                   password: ${{ secrets.PASSWORD }}
                   port: ${{ secrets.PORT }}
                   script: |
-                      cd /uas-awan
+                      cd uas-awan/
+                      git pull
     push_to_registry:
         name: Push Docker Images
         runs-on: ubuntu-latest
@@ -36,6 +37,22 @@ jobs:
             - name: Build and Push Docker Images
               uses: docker/build-push-action@v2
               with:
+                  context: .
                   file: Dockerfile
                   push: true
                   tags: ${{ Secrets.DOCKER_USERNAME }}/uas-awan:latest
+
+    Deploy_images:
+        name: Setup SSH and deploy images
+        needs: [build]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy to Docker compose with Load Balancer
+            uses: appleboy/ssh-action@master
+            with:
+                host: ${{ secrets.HOST }}
+                username: ${{ secrets.USERNAME }}
+                password: ${{ secrets.PASSWORD }}
+                port: ${{ secrets.PORT }}
+                script: |
+                    sudo docker-compose up -d

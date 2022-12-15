@@ -1,4 +1,4 @@
-version: "2.0"
+version: "3"
 services:
     #PHP Service
     app:
@@ -35,20 +35,28 @@ services:
     db:
         image: mysql:latest
         container_name: uas-awan-db
+        # restart: unless-stopped
+        tty: true
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: uas_awan
+            MYSQL_PASSWORD: root
+
         ports:
             - "3306:3306"
-        environment:
-            MYSQL_DATABASE: uts-awan
-            MYSQL_ROOT_PASSWORD: root
-            SERVICE_TAGS: dev
-            SERVICE_NAME: mysql
+
+        # volumes:
+        #     - ./mysql/data:/var/lib/mysql
+        #     - ./mysql/conf.d:/etc/mysql/conf.d
+
         volumes:
-            - ./mysql/data:/var/lib/mysql/
-            - ./mysql/my.cnf:/etc/mysql/my.cnf
+            # - ./docker/mariadb/config:/etc/mysql/conf.d:ro
+            - ./db/data:/var/lib/mysql
+            - ./init:/docker-entrypoint-initdb.d
+
         networks:
             - app-network
 
-#Docker Networks
 networks:
     app-network:
         driver: bridge
