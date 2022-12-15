@@ -55,4 +55,5 @@ jobs:
                   password: ${{ secrets.PASSWORD }}
                   port: ${{ secrets.PORT }}
                   script: |
+                      cd uas-awan/
                       sudo docker-compose up -d
