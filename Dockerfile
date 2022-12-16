@@ -33,7 +33,7 @@ RUN docker-php-ext-install mysqli
 RUN docker-php-ext-enable gd
 
 # Install composer (php package manager)
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy existing application directory contents to the working directory
 COPY . /var/www/html
